@@ -1,0 +1,30 @@
+﻿@model MobileWeb.Models.DTOs.CategoryDTO
+
+@{
+	ViewData["Title"] = "Chỉnh sửa";
+}
+
+<h2 class="text-black fw-bold fst-italic">Chỉnh sửa</h2>
+<hr />
+
+<form asp-controller="Categories" asp-action="Edit" class="w-50 text-black">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<input type="hidden" name="id" value="@ViewData["CategoryId"]" />
+
+	<div class="form-group w-25">
+		<label asp-for="@Model.Name" class="control-label"></label>
+		<input asp-for="@Model.Name" class="form-control" />
+		<span asp-validation-for="@Model.Name" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-success d-inline fw-bold">Lưu thay đổi</button>
+	<span class="m-2">|</span>
+	<a asp-action="Index" class="d-inline">Quay lại</a>
+</form>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	}

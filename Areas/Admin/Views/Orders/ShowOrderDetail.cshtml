@@ -1,0 +1,39 @@
+﻿@using MobileWeb.Models.Entities
+@using System.Globalization
+
+@{
+	ViewData["Title"] = "Chi tiết đơn hàng";
+	int index = 1;
+	var orderItemList = ViewBag.OrderItems as IEnumerable<OrderItem>;
+}
+
+@model Order
+
+<table class="table table-sm table-hover">
+	<thead>
+		<tr class="text-black">
+			<th>#</th>
+			<th>Hình ảnh</th>
+			<th>Tên sản phẩm</th>
+			<th>Số lượng</th>
+			<th>Đơn Giá</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model.OrderItems)
+		{
+			<tr class="text-black">
+				<th>@index</th>
+				<td><img src="~/img/products/@item.Product?.ImgUrl" width="40" height="40"></td>
+				<td>@item.Product?.Name</td>
+				<td>@item.Quantity</td>
+				<td>@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.UnitPrice)) VNĐ</td>
+				<td></td>
+			</tr>
+			index++;
+		}
+	</tbody>
+
+</table>

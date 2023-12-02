@@ -1,0 +1,189 @@
+﻿@using MobileWeb.Models.Entities
+@model MobileWeb.Models.DTOs.ProductDTO
+
+@{
+	ViewData["Title"] = "Chỉnh sửa Thông tin sản phẩm";
+	var productImages = ViewBag.ProductImages as IEnumerable<ProductImage>;
+	productImages ??= new List<ProductImage>();
+}
+
+<h2 class="fw-bold fst-italic text-black">Chỉnh sửa sản phẩm</h2>
+<hr />
+
+<form asp-action="Edit" class="w-100 text-black" enctype="multipart/form-data">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<input type="hidden" name="id" value="@ViewBag.ProductId" />
+
+	<div class="form-group mb-3">
+		<label asp-for="Name" class="control-label"></label>
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Description" class="control-label"></label>
+		<textarea asp-for="Description" class="form-control" rows="10"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3 row">
+		<div class="col-9 pt-3">
+			<label asp-for="AvatarUpdate" class="control-label"></label>
+			<input asp-for="AvatarUpdate" id="upload-image" class="form-control" onchange="previewImage()" />
+			@*<input asp-for="AvatarUpdate" class="form-control" value="" />*@
+			<span asp-validation-for="AvatarUpdate" class="text-danger"></span>
+		</div>
+
+		<div class="col-3 d-flex justify-content-center">
+			<img src="~/img/products/@ViewBag.Avatar" id="upload-preview" class="img-fluid" width="150" />
+		</div>
+
+	</div>
+
+	<div class="form-group mb-3">
+		<div class="row px-0" id="image-list" data-pid="@ViewBag.ProductId">
+			@foreach (var image in productImages)
+			{
+				<div id="image" class="col-2 mb-2 d-flex flex-column justify-content-center align-items-center">
+					<img src="~/img/products/@image.ImageName" class="img-fluid mb-2" width="100" />
+					<a class="btn btn-sm btn-danger w-50" data-id="@image.Id" @*onclick="deleteImage(@image.Id)"*@>Xóa ảnh</a>
+					@*<input asp-for="Images" type="hidden" value="@image"/>*@
+				</div>
+			}
+		</div>
+
+		<label asp-for="Images" class="control-label"></label>
+		<input asp-for="Images" class="form-control" />
+		@*<span asp-validation-for="Images" class="text-danger"></span>*@
+	</div>
+
+	<div class="form-group mb-3 row">
+		<div class="col-6">
+			<label asp-for="Price" class="control-label"></label>
+			<input asp-for="Price" class="form-control" />
+			<span asp-validation-for="Price" class="text-danger"></span>
+		</div>
+
+		<div class="col-6">
+			<label asp-for="Quantity" class="control-label"></label>
+			<input asp-for="Quantity" class="form-control" />
+			<span asp-validation-for="Quantity" class="text-danger"></span>
+		</div>
+	</div>
+
+
+	<div class="form-group mb-3 row">
+		<div class="col-6">
+			<label asp-for="CategoryId" class="control-label"></label>
+			<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+			<span asp-validation-for="CategoryId" class="text-danger"></span>
+		</div>
+
+		<div class="col-6">
+			<label asp-for="Color" class="control-label"></label>
+			<input asp-for="Color" class="form-control" />
+			<span asp-validation-for="Color" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="form-group mb-3 row">
+		<div class="col-3">
+			<label asp-for="OperatingSystemVersion" class="control-label"></label>
+			<input asp-for="OperatingSystemVersion" class="form-control" />
+			<span asp-validation-for="OperatingSystemVersion" class="text-danger"></span>
+		</div>
+
+		<div class="col-9 row pe-0">
+			<div class="form-group mb-3 col-3">
+				<label asp-for="RAM" class="control-label"></label>
+				<input asp-for="RAM" class="form-control" />
+				<span asp-validation-for="RAM" class="text-danger"></span>
+			</div>
+
+			<div class="form-group mb-3 col-3">
+				<label asp-for="ROM" class="control-label"></label>
+				<input asp-for="ROM" class="form-control" />
+				<span asp-validation-for="ROM" class="text-danger"></span>
+			</div>
+
+			<div class="form-group mb-3 col-3">
+				<label asp-for="NumberOfBehindCamera" class="control-label"></label>
+				<input asp-for="NumberOfBehindCamera" class="form-control" />
+				<span asp-validation-for="NumberOfBehindCamera" class="text-danger"></span>
+			</div>
+
+			<div class="form-group mb-3 col-3 pe-0">
+				<label asp-for="Model" class="control-label"></label>
+				<input asp-for="Model" class="form-control" />
+				<span asp-validation-for="Model" class="text-danger"></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<input type="submit" value="Lưu thay đổi" class="btn btn-primary fw-bold" />
+		<span class="mx-2">|</span>
+		<a asp-action="Index">Quay lại danh sách</a>
+	</div>
+</form>
+
+@section Scripts {
+	<script type="text/javascript">
+
+		// show image which is chose in input type="file"
+		function previewImage() {
+			const oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("upload-image").files[0]);
+
+			oFReader.onload = function (oFREvent) {
+				document.getElementById("upload-preview").src = oFREvent.target.result;
+			};
+		};
+
+		//function loadProductImages() {
+		//	const imageList = $('#image-list');
+		//	const productId = imageList.data('pid');
+
+		//	const urlHandle = "@Url//.Action("LoadProductImages", "Products", new { area = "Admin" })";
+
+		//	//console.log(productId);
+
+		//	$.ajax({
+		//		data: 'id='+productId,
+		//		type: "POST",
+		//		url: urlHandle,
+		//		success: function (data) {
+		//			console.log(data);
+
+		//		}
+		//	});
+		//}
+
+		function deleteImage(id) {
+			const urlHandle = "@Url.Action("DeleteProductImage", "Products", new { area = "Admin" })";
+
+			$.ajax({
+				data: 'id='+id,
+				type: "POST",
+				url: urlHandle,
+				success: function () {
+					alert("Xóa thành công!");
+					location.reload();
+				}
+			});
+		}
+
+		$('#image a').click(function () {
+			const image = $(this);
+			const data = image.data('id');
+
+			deleteImage(data);
+		})
+
+		//$(document).ready(function () {
+		//	//loadProductImages();
+		//});
+
+	</script>
+}

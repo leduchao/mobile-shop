@@ -1,0 +1,19 @@
+﻿@{
+	ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<div class="container justify-content-center w-100 my-5 py-5">
+	<h2 class="alert alert-success mb-5">
+		Bạn đã đặt hàng thành công!
+	</h2>
+	<div class="d-flex justify-content-between">
+		<a asp-controller="Shop" asp-action="Index" asp-area="" class="text-decoration-none">
+			<i class="fas fa-arrow-left me-2"></i>
+			Tiếp tục mua sắm
+		</a>
+		<a asp-controller="User" asp-action="Index" asp-route-uname="@User.Identity?.Name" class="text-decoration-none">
+			Xem đơn hàng
+			<i class="fas fa-arrow-right ms-2"></i>
+		</a>
+	</div>
+</div>

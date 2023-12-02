@@ -1,0 +1,234 @@
+﻿@{
+	ViewData["title"] = "Cửa Hàng";
+	Layout = "_Layout";
+}
+
+@model IEnumerable<MobileWeb.Models.Entities.Product>
+
+<div class="container py-5">
+	<div class="row">
+		@*danh mục*@
+		@await Component.InvokeAsync("Sidebar")
+
+		@*lọc sản phẩm*@
+		<div class="col-lg-9">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="list-inline shop-top-menu pb-3 pt-1">
+						<li class="list-inline-item">
+							<a class="h3 text-dark text-decoration-none mr-3" asp-controller="Shop" asp-action="Index">
+								Tất cả
+							</a>
+							<span style="font-size:25px; margin-left: 10px">|</span>
+						</li>
+						<li class="list-inline-item">
+							<a class="h3 text-dark text-decoration-none mr-3" href="/Shop">Mới nhất</a>
+							<span style="font-size:25px; margin-left: 10px">|</span>
+						</li>
+						<li class="list-inline-item">
+							<a class="h3 text-dark text-decoration-none" href="#">Xem nhiều nhất</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-6 pb-4">
+					<div class="d-flex">
+						<form asp-controller="Shop" asp-action="Index" method="get">
+							<select class="form-control" id="choice" name="price">
+								<option>Tất cả</option>
+								<option value="min-to-max">Thấp - cao</option>
+								<option value="max-to-min">Cao - thấp</option>
+							</select>
+						</form>
+						@*<select class="form-control" asp-items="@(new SelectList(list, "keys", "values"))"></select>*@
+						<a id="filter" type="submit" class="btn btn-outline-success ms-3 w-25"
+							 asp-controller="Shop" asp-action="Index" asp-route-condition="">
+							<strong>Lọc</strong>
+						</a>
+
+						@*<script>
+						var e = document.getElementById("choice");
+						var value = e.options[e.selectedIndex].value;
+						function setRouteParameter() {
+						var newhref = $("#filter").attr('href') + '?condition=' + value;
+						$("#filter").attr("href", newhref);
+						}
+						</script>*@
+					</div>
+				</div>
+			</div>
+
+			@*hiển thị sản phẩm*@
+			<main role="main">
+				@RenderBody()
+				@*<div class="row">*@
+
+					@*if (Model.Count() == 0)
+					{
+					<p>Không có sản phẩm phù hợp!!!</p>
+					}
+					else
+					{
+					foreach (var item in Model)
+					{
+					<div class="col-md-4">
+					<div class="card mb-4 product-wap rounded-0">
+					<div class="card rounded-0">
+					<img class="card-img rounded-0 img-fluid" src="@Url.Content(item.ImgUrl)">
+					<div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+					<ul class="list-unstyled">
+					<li>
+					<a class="btn btn-success text-white"
+					asp-action="ProductDetails" asp-route-id="@item.Id">
+					<i class="far fa-heart"></i>
+					</a>
+					</li>
+					<li>
+					<a class="btn btn-success text-white mt-2"
+					asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
+					<i class="far fa-eye"></i>
+					</a>
+					</li>
+					<li>
+					<a class="btn btn-success text-white mt-2"
+					asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
+					<i class="fas fa-cart-plus"></i>
+					</a>
+					</li>
+					</ul>
+					</div>
+					</div>
+					<div class="card-body">
+					<a asp-controller="Shop" asp-action="ProductDetails" class="h3 text-decoration-none">@item.Name</a>
+					<ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+					@*<li>6.6 inches 5000 mAh</li>
+					<li class="pt-2">
+					<span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+					<span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+					<span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+					<span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+					<span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+					</li>
+					</ul>
+					<ul class="list-unstyled d-flex justify-content-center mb-1">
+					<li>
+					<i class="text-warning fa fa-star"></i>
+					<i class="text-warning fa fa-star"></i>
+					<i class="text-warning fa fa-star"></i>
+					<i class="text-muted fa fa-star"></i>
+					<i class="text-muted fa fa-star"></i>
+					</li>
+					</ul>
+					<p class="text-center mb-0">@item.Price$</p>
+					</div>
+					</div>
+					</div>
+					}
+					}
+					await Component.InvokeAsync("FilterProducts", "")*@
+				@*</div>*@
+			</main>
+
+			@*phân trang*@
+			<div div="row">
+				<ul class="pagination pagination-lg justify-content-end">
+					<li class="page-item disabled">
+						<a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+@*Thương hiệu*@
+<section class="bg-light py-5">
+	<div class="container my-4">
+		<div class="row text-center py-3">
+			<div class="col-lg-6 m-auto">
+				<h1 class="h1">Our Brands</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					Lorem ipsum dolor sit amet.
+				</p>
+			</div>
+			<div class="col-lg-9 m-auto tempaltemo-carousel">
+				<div class="row d-flex flex-row">
+					<!--Controls-->
+					<div class="col-1 align-self-center">
+						<a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
+							<i class="text-light fas fa-chevron-left"></i>
+						</a>
+					</div>
+					<!--End Controls-->
+					<!--Carousel Wrapper-->
+					<div class="col">
+						<div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example" data-bs-ride="carousel">
+							<!--Slides-->
+							<div class="carousel-inner product-links-wap" role="listbox">
+
+								<!--First slide-->
+								<div class="carousel-item active">
+									<div class="row">
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/samsung/samsung-logo-1000.png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/apple/apple-logo.png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/oppo/logo (1).png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/xiaomi/logo-1000.png" alt="Brand Logo"></a>
+										</div>
+									</div>
+								</div>
+								<!--End First slide-->
+								<!--Second slide-->
+								<div class="carousel-item">
+									<div class="row">
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/samsung/samsung-logo-1000.png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/apple/apple-logo.png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/oppo/logo (1).png" alt="Brand Logo"></a>
+										</div>
+										<div class="col-3 p-md-5">
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/xiaomi/logo-1000.png" alt="Brand Logo"></a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!--End Slides-->
+						</div>
+					</div>
+					<!--End Carousel Wrapper-->
+					<!--Controls-->
+					<div class="col-1 align-self-center">
+						<a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
+							<i class="text-light fas fa-chevron-right"></i>
+						</a>
+					</div>
+					<!--End Controls-->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@*<script>
+	var e = document.getElementById("choice");
+	var value = e.options[e.selectedIndex].value;
+	document.getElementById("filter").setAttribute("aps-route-condition", value);
+</script>*@

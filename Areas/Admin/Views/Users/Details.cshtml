@@ -1,0 +1,76 @@
+﻿@model MobileWeb.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="text-black fst-italic fw-bold">Thông tin khách hàng</h2>
+<hr />
+
+<div class="row mb-3">
+	<div class="col-md-4">
+		<div>
+			<img src="~/img/users/@Model.Avatar" class="img-fluid" width="350" />
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<div class="row text-black">
+			<div class="col-sm-3 fw-bold p-0">Tên tài khoản:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.UserName)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Tên khách hàng:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)
+			</div>
+
+			<hr style="width: 870px;  height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Địa chỉ:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Address)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Số điện thoại:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.PhoneNumber)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Email:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Email)
+
+				@if (Model.EmailConfirmed == true)
+				{
+					<span class="text-success mb-0">(Đã xác thực)</span>
+				}
+				else 
+				{
+					<span class="text-warning mb-0">(Chưa xác thực)</span>
+				}
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Ngày sinh:</div>
+			<div class="col-sm-9 mb-2">
+				@Model.Birthday?.ToString("dd/MM/yyyy")
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+		</div>
+	</div>
+</div>
+<div class="mb-3">
+	@*<a asp-action="Edit" asp-route-id="@ViewBag.ProductId">Chỉnh sửa</a>
+	<span class="mx-2">|</span>*@
+	<a asp-action="Index"><i class="fas fa-arrow-left me-2"></i>Quay lại danh sách</a>
+</div>

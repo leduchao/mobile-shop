@@ -1,0 +1,121 @@
+﻿@using System.Globalization
+@using MobileWeb.Models.Entities
+
+@model MobileWeb.Models.DTOs.ProductDTO
+
+@{
+	ViewData["Title"] = "Chi tiết sản phẩm";
+	var productImages = ViewBag.ProductImages as IEnumerable<ProductImage>;
+}
+
+<h2 class="text-black fst-italic fw-bold">Chi tiết sản phẩm</h2>
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<div>
+			<img src="~/img/products/@ViewBag.ProductImg" class="img-fluid" width="470"/>
+			<div class="row mt-3 px-3">
+				@*@if (productImages!.Count() == 0)
+				{
+					<p class="fst-italic text-black">Không còn hình ảnh nào khác!</p>
+				}
+
+				@foreach (var image in productImages!)
+				{
+					<div class="col-4 mb-3">
+						<a href="#">
+							<img class="card-img img-fluid" src="~/img/products/@image.ImageName" width="50" alt="Product Image 1">
+						</a>
+					</div>
+				}*@
+
+				@if (Model.ImageList.Count == 0)
+				{
+					<p class="fst-italic text-black">Không còn hình ảnh nào khác!</p>
+				}
+
+				@foreach (var image in Model.ImageList)
+				{
+					<div class="col-4 mb-3">
+						<a href="#">
+							<img class="card-img img-fluid" src="~/img/products/@image.ImageName" width="100" alt="Product Image 1">
+						</a>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<div class="row text-black">
+			<div class="col-sm-3 fw-bold p-0">Tên sản phẩm:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Name)
+			</div>
+
+			<hr style="width: 870px;  height: 0px"/>
+
+			<div class="col-sm-3 fw-bold p-0">Mô tả:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Description)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Giá:</div>
+			<div class="col-sm-9 mb-2">
+				@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", Model.Price)) VNĐ
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Số lượng trong kho:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Quantity)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Hãng:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Category!.Name)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Màu sắc:</div>
+			<div class="col-sm-9 mb-2">
+				@Html.DisplayFor(model => model.Color)
+			</div>
+
+			<hr style="width: 870px; height: 0px" />
+
+			<div class="col-sm-3 fw-bold p-0">Thông số kỹ thuật:</div>
+			<div class="col-sm-9 row mb-2">
+				<ul>
+					<li>
+						<span class="fw-bold me-3 fst-italic">RAM:</span>@Html.DisplayFor(model => model.RAM) GB
+					</li>
+
+					<li>
+						<span class="fw-bold me-3 fst-italic">ROM:</span>@Html.DisplayFor(model => model.ROM) GB
+					</li>
+
+					<li>
+						<span class="fw-bold me-3 fst-italic">Model:</span>@Html.DisplayFor(model => model.Model)
+					</li>
+
+					<li>
+						<span class="fw-bold me-3 fst-italic">Hệ diều hành:</span>@Html.DisplayFor(model => model.OperatingSystemVersion)
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mb-3">
+	<a asp-action="Edit" asp-route-id="@ViewBag.ProductId">Chỉnh sửa</a>
+	<span class="mx-2">|</span>
+	<a asp-action="Index">Quay lại danh sách</a>
+</div>

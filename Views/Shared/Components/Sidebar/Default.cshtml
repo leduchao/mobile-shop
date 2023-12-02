@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MobileWeb.Models.Entities.Category>;
+
+<ul class="list-unstyled templatemo-accordion">
+	<form>
+		@foreach (var item in Model)
+		{
+		<li class="pb-3">
+			<a class="collapsed d-flex justify-content-between h6 text-decoration-none" asp-controller="Shop" asp-action="Index" asp-route-keyword="@item.Name">
+					@item.Name
+					@*<i class="fa fa-fw fa-chevron-circle-down mt-1"></i>*@
+			</a>
+		</li>
+		}
+	</form>
+</ul>

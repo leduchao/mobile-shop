@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MobileWeb.Models.Entities.Category>
+
+@{
+	ViewData["Title"] = "Danh mục sản phẩm";
+	int index = 1;
+}
+
+<div class="d-flex justify-content-between mb-3">
+	<h2 class="text-black fw-bold fst-italic">Danh sách danh mục</h2>
+	<div>
+		<a asp-controller="Categories" asp-action="Create" class="btn btn-primary fw-bold">Tạo danh mục mới</a>
+	</div>
+</div>
+
+
+<table class="table table-sm table-hover text-black">
+	<thead>
+		<tr class="text-black">
+			<th>#</th>
+			<th>Tên danh mục</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr class="text-black">
+				<th>@index</th>
+				<td>@item.Name</td>
+
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
+					<span class="m-2">|</span>
+					<a asp-action="Delete" asp-route-id="@item.Id" id="delete-button" 
+						onclick="return confirm('Bạn chắc chắn muốn xóa danh mục @item.Name?')">
+						Xóa danh mục
+					</a>
+				</td>
+			</tr>
+
+			{ index++; }
+		}
+	</tbody>
+</table>
+
+@section Scripts {
+	<script>
+		
+	</script>
+}

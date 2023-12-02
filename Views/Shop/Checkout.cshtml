@@ -1,0 +1,100 @@
+﻿@using MobileWeb.Models.DTOs
+@using MobileWeb.Services.CartService
+@using System.Globalization
+
+@inject ICartService cartService
+
+@{
+	ViewData["Title"] = "Đặt hàng";
+	var cart = cartService.GetAllItems();
+	var totalPrice = 0d;
+}
+
+@model OrderDTO
+
+<div class="container py-4">
+	<div class="row g-5">
+		<div class="col-md-6 col-lg-6 order-md-last">
+			<div class="d-flex justify-content-between align-items-center mb-2">
+				<h2 class="text-success">Giỏ hàng</h2>
+				<span class="badge bg-success rounded-pill">@cart.Count</span>
+			</div>
+
+			<ul class="list-group mb-3">
+				@foreach (var item in cart)
+				{
+					<li class="list-group-item d-flex justify-content-between lh-sm">
+						<div>
+							<h6 class="my-0">@item.Product.Name</h6>
+							<small class="text-success">Số lượng: @item.Quantity</small>
+						</div>
+						<span class="text-red">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.Product.Price)) VNĐ</span>
+					</li>
+
+					{ totalPrice += @item.TotalPrice; }
+				}
+
+				<li class="list-group-item d-flex justify-content-between">
+					<span>Tổng tiền:</span>
+					<strong class="text-danger">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", totalPrice)) VNĐ</strong>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-md-6 col-lg-6">
+			<h2 class="mb-3 text-success">Thông tin khách hàng</h2>
+			<form asp-controller="Shop" asp-action="Checkout" class="needs-validation" novalidate>
+				<input type="hidden" value="@ViewBag.UserId" name="uid" />
+
+				<div class="row g-0">
+					<div class="col-12 d-flex justify-content-between">
+						<div class="form-floating mb-4" style="width: 300px">
+							<input asp-for="Firstname" type="text" class="form-control" placeholder="Hao" value="@ViewBag.UserFirstName" required>
+							<label asp-for="Firstname">Tên</label>
+							<span asp-validation-for="Firstname" class="text-danger"></span>
+						</div>
+
+						<div class="form-floating mb-4" style="width: 300px">
+							<input asp-for="LastName" type="text" class="form-control" placeholder="Le Duc" value="@ViewBag.UserLastName" required>
+							<label asp-for="LastName">Họ</label>
+							<span asp-validation-for="LastName" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="col-12 form-floating mb-4">
+						<input asp-for="Address" type="text" class="form-control" placeholder="1234 Main St..." value="@ViewBag.UserAddress" required>
+						<label asp-for="Address">Địa chỉ nhận hàng</label>
+						<span asp-validation-for="Address" class="text-danger"></span>
+					</div>
+
+					<div class="col-12 form-floating">
+						<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="01234..." value="@ViewBag.UserPhoneNumber" required>
+						<label asp-for="PhoneNumber">Số điện thoại</label>
+						<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div asp-validation-summary="All" class="mt-4 text-danger"></div>
+
+				<hr class="my-4 h-0">
+
+				<h4 class="mb-3">Phương thức thanh toán</h4>
+
+				<div class="my-3">
+					<div class="form-check">
+						<input asp-for="PaymentMethod" type="radio" value="@Enum.GetName(typeof(PaymentMethods), 0)" class="form-check-input" required>
+						<label asp-for="PaymentMethod" class="form-check-label">Thanh toán khi nhận hàng</label>
+					</div>
+					<div class="form-check">
+						<input asp-for="PaymentMethod" type="radio" value="@Enum.GetName(typeof(PaymentMethods), 1)" class="form-check-input" required>
+						<label asp-for="PaymentMethod" class="form-check-label">Paypal</label>
+					</div>
+				</div>
+
+				<hr class="my-4">
+
+				<button class="w-100 border-3 border-success btn btn-outline-success btn-lg fw-bold" type="submit">Xác nhận đặt hàng</button>
+			</form>
+		</div>
+	</div>
+</div>

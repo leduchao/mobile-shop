@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Http
+@using MobileWeb.Services.CartService
+@using Newtonsoft.Json
+@inject CartService _cartService
+
+@{
+	var cart = _cartService.GetAllItems();
+	if (cart != null)
+	{
+		<a class="nav-icon position-relative text-decoration-none" asp-route="cart">
+			<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+			<span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">@cart.Count()</span>
+		</a>
+	}
+}

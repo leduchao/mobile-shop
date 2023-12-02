@@ -1,0 +1,75 @@
+﻿@using MobileWeb.Models.Entities
+
+@{
+	ViewData["Title"] = "Trang chủ";
+	int idx = 1;
+}
+
+@model IQueryable<Product>
+
+<!-- Start Banner Hero -->
+<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+	<ol class="carousel-indicators">
+		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+	</ol>
+
+	<div class="carousel-inner bg-white">
+		@foreach (var product in Model)
+		{
+			<div class="carousel-item @(idx == 1 ? "active" : "")" >
+				<div class="container">
+					<div class="row p-5">
+						<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+							<img class="img-fluid" src="~/img/products/@product.ImgUrl" width="800" height="800" alt="">
+						</div>
+						<div class="col-lg-6 mb-0 d-flex align-items-center">
+							<div class="text-align-left align-self-center">
+								<h1 class="h1 text-success">@product.Name</h1>
+								@*<h3 class="h2">Sang trọng & hiện đại</h3>*@
+								<p>@product.Description</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{ idx++; }
+		}
+	</div>
+
+	<a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+		<i class="fas fa-chevron-left"></i>
+	</a>
+	<a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+		<i class="fas fa-chevron-right"></i>
+	</a>
+</div>
+<!-- End Banner Hero -->
+
+<!-- Start Categories of The Month -->
+<section class="container py-5">
+	<div class="row text-center pt-3">
+		<div class="col-lg-6 m-auto">
+			<h1 class="h1">Sản phẩm của tháng</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md-4 p-5 mt-3">
+			<a asp-controller="Shop" asp-action="Index"><img src="~/assets/img/apple/ip_14_tim.jpg" class="rounded-circle img-fluid border"></a>
+			<h5 class="text-center mt-3 mb-3">Tím mộng mơ</h5>
+			<p class="text-center"><a asp-controller="Shop" asp-action="Index" class="btn btn-success">Go Shop</a></p>
+		</div>
+		<div class="col-12 col-md-4 p-5 mt-3">
+			<a asp-controller="Shop" asp-action="Index"><img src="~/assets/img/samsung/samsung_s/s23_green.png" class="rounded-circle img-fluid border"></a>
+			<h2 class="h5 text-center mt-3 mb-3">Xanh đen huyền bí</h2>
+			<p class="text-center"><a asp-controller="Shop" asp-action="Index" class="btn btn-success">Go Shop</a></p>
+		</div>
+		<div class="col-12 col-md-4 p-5 mt-3">
+			<a asp-controller="Shop" asp-action="Index"><img src="~/assets/img/oppo/X80p-blue.png" class="rounded-circle img-fluid border"></a>
+			<h2 class="h5 text-center mt-3 mb-3">Dòng chảy của nước</h2>
+			<p class="text-center"><a asp-controller="Shop" asp-action="Index" class="btn btn-success">Go Shop</a></p>
+		</div>
+	</div>
+</section>

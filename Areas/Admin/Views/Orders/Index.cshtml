@@ -1,0 +1,85 @@
+﻿@using MobileWeb.Models.DTOs
+@using System.Globalization
+
+@model IEnumerable<MobileWeb.Models.Entities.Order>
+
+@{
+	ViewData["Title"] = "Đơn hàng";
+	int index = 1;
+}
+
+<div class="d-flex justify-content-between mb-3">
+	<h2 class="text-black fst-italic fw-bold">Danh sách đơn hàng</h2>
+
+	<!-- Topbar Search -->
+	<form class="d-flex form-inline mb-2 navbar-search" style="width: 500px">
+		<div class="input-group  w-100">
+			<input type="text" class="form-control border-1 small" placeholder="Tìm kiếm..."
+				   aria-label="Search" aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="button">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<table class="table table-sm table-hover">
+	<thead>
+		<tr class="text-black">
+			<th>#</th>
+			<th></th>
+			<th>Trạng thái</th>
+			<th>Tên Khách hàng</th>
+			<th>Thanh toán</th>
+			<th>Tổng tiền</th>
+			<th>Ngày đặt hàng</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			var fullName = $"{@item.User?.LastName} {@item.User?.FirstName}";
+
+			<tr class="text-black">
+				<th>@index</th>
+				<td class=""><img src="~/img/users/@item.User?.Avatar" width="40" height="40"></td>
+				
+				@if (item.Status == Status.Processing)
+				{
+					<td class="text-danger">Đang chờ xử lý</td>
+				}
+				@if (item.Status == Status.Shipping)
+				{
+					<td class="text-primary">Đang giao...</td>
+				}
+				@if (item.Status == Status.Finished)
+				{
+					<td class="text-success fst-italic">Đã giao xong</td>
+				}
+
+				<td>@fullName</td>
+				<td>@item.PaymentMethod.ToString()</td>
+				<td>@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.TotalPayment)) VNĐ</td>
+				<td>@item.OrderAt.ToString("dd/MM/yyyy")</td>
+
+				<td>
+					<a asp-action="AcceptOrder" asp-route-oid="@item.Id">Nhận đơn</a>
+					<span class="m-2">|</span>
+
+					<a asp-action="ShowOrderDetail" asp-route-oid="@item.Id">Chi tiết</a>
+					<span class="m-2">|</span>
+
+					<a asp-action="DeleteOrder" asp-route-oid="@item.Id"
+						onclick="return confirm('Bạn muốn xóa đơn hàng này của @fullName?')">
+						Xóa
+					</a>
+				</td>
+			</tr>
+
+			index++;
+		}
+	</tbody>
+</table>

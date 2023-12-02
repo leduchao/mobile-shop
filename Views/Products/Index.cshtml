@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MobileWeb.Models.Entities.Product>
+
+@{
+	ViewData["Title"] = "Danh sách sản phẩm";
+	Layout = "_Admin";
+}
+
+<style>
+	/*th {
+		width: 10px;
+	}*/
+
+	.tbl {
+		border-collapse: collapse;
+	}
+
+	/*td {
+		height: 50px;
+		overflow: auto;
+	}*/
+
+	th, td {
+		border: solid 1px #ccc;
+	}
+</style>
+
+<h1>Danh sách sản phẩm</h1>
+
+<p>
+	<a class="btn btn-primary" asp-action="Create">Thêm sản phẩm</a>
+</p>
+<table class="table table-striped tbl">
+	<thead>
+		<tr>
+			<th scope="col">
+				Tên sản phẩm
+				@*@Html.DisplayNameFor(model => model.Name)*@
+			</th>
+			@*<th scope="col">
+				Mô tả
+				@*Html.DisplayNameFor(model => model.Description)
+			</th>*@
+			<th scope="col">
+				Giá
+				@*@Html.DisplayNameFor(model => model.Price)*@
+			</th scope="col">
+			@*<th scope="col">
+				Đường dẫn ảnh
+				@*Html.DisplayNameFor(model => model.ImgUrl)
+			</th>*@
+			<th scope="col">
+				Số lượng
+				@*@Html.DisplayNameFor(model => model.Quantity)*@
+			</th>
+			<th scope="col">
+				Nhãn Hiệu
+				@*@Html.DisplayNameFor(model => model.Category)*@
+			</th>
+			<th scope="col">
+				Màu sắc
+			</th>
+			@*<th scope="col">
+				Thông số kỹ thuật
+			</th>*@
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				@*<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>*@
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				@*<td>
+					@Html.DisplayFor(modelItem => item.ImgUrl)
+				</td>*@
+				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category!.Name)
+				</td>
+				<th>
+					@Html.DisplayFor(modelItem => item.Color)
+				</th>
+				@*<th>
+					@Html.DisplayFor(modelItem => item.Specifications)
+				</th>*@
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
